@@ -1,0 +1,46 @@
+# Python 3.11 required
+
+# FastAPI and server
+fastapi==0.115.6
+uvicorn[standard]==0.30.1
+pydantic==2.12.5
+starlette>=0.40.0
+
+# Database
+sqlalchemy>=2.0.36
+psycopg[binary]==3.2.13
+
+# Environment and configuration
+python-dotenv==1.0.1
+python-multipart==0.0.6
+
+# AI and Google services
+google-generativeai>=0.8.0
+google-auth>=2.43.0
+protobuf>=5.26.0
+
+# Email scheduling
+APScheduler==3.10.1
+pytz>=2025.2
+tzlocal>=5.3.1
+
+# Authentication and security
+python-jose[cryptography]==3.3.0
+cryptography>=46.0.3
+
+# HTTP requests
+requests>=2.32.5
+urllib3>=2.6.2
+certifi>=2025.11.12
+
+# Email validation
+email-validator==2.3.0
+
+# PDF generation
+reportlab==4.0.9
+
+# Utilities
+tqdm>=4.67.1
+six>=1.17.0
+setuptools>=65.5.0
+typing-extensions>=4.8.0
