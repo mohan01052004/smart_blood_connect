@@ -10,6 +10,36 @@ Blood Dot is an intelligent, automated blood bank network that connects requests
 
 ---
 
+## 📖 Project Overview & In-Depth Architecture
+
+In emergency medical situations, finding the right blood group quickly is often a chaotic process. Families or hospitals typically broadcast unstructured requests on social media or send manual emails to various organizations. Blood Dot bridges this gap by acting as an **automated, intelligent dispatch network** that listens to request channels, resolves resource availability, calculates actual travel times, and sends localized response messages within seconds.
+
+### 🧠 How the AI Pipeline Works
+1. **Gmail Ingestion & IMAP Monitoring:**
+   A background scheduler task continuously polls the connected Gmail inbox for unread messages.
+2. **Context-Aware Classification (Spam Shield):**
+   The incoming raw email body is passed to the **Gemini 2.5 Flash model**. The model classifies whether the email is a genuine blood/donation request. Non-request emails (promotional spam, newsletter signups, out-of-office automated replies) are flagged as `is_blood_request: false`. The system skips processing and stores the message ID in the database to avoid sending duplicate replies or auto-replying to spammers.
+3. **Structured Attribute Extraction:**
+   For valid requests, the AI extracts semantic parameters, converting unstructured text into structured JSON data:
+   * **Blood Group:** Resolves standard classifications (`O+`, `AB-`, etc.) and handles colloquial mentions.
+   * **Location:** Identifies landmarks, city names, or pincodes.
+   * **Urgency Level:** Classifies request urgency (`low`, `medium`, `high`) based on words indicating surgery dates, emergencies, or timelines.
+
+### 🗺️ Geolocation & Proximity Routing
+1. **Geocoding Address Strings:**
+   Unstructured locations (e.g. *"near Marathahalli, Bangalore"*) are resolved into coordinate pairs (Latitude and Longitude) using the **Google Geocoding API**.
+2. **Database Queries:**
+   The backend queries the PostgreSQL database for blood banks with positive inventory counts of the requested group and registered donors matching the group.
+3. **Google Maps Distance Matrix calculation:**
+   Rather than simple straight-line coordinates, the system submits coordinate pairs to the **Google Maps Distance Matrix API**. It calculates actual road distances (in km) and travel times (in minutes), ranking the closest blood banks and donors at the top.
+
+### 🌐 Translation & Localization
+* The system automatically identifies the sender's language (e.g., Hindi, Kannada, Tamil, or English).
+* The resolved list of matching donors and inventory options is formatted into a detailed status report.
+* The AI dynamically translates this final report back to the sender's native language, ensuring language barriers do not delay critical emergency coordination.
+
+---
+
 ## 📸 Platform Showcase
 
 ### 🔐 Portal Login & Management
