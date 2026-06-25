@@ -1,123 +1,131 @@
+# 🩸 Blood Dot — AI-Powered Blood Availability Network
 
-# Blood Dot - AI-Powered Blood Availability Network
+Blood Dot is a modern, responsive, and intelligent blood bank management platform. It automates blood requests by reading and parsing incoming emails using **Google Gemini AI**, cross-referencing available donor directories and inventory databases, and auto-replying with ranked location matches.
 
-A comprehensive blood bank management system with automated email processing and AI-powered blood request handling.
+---
 
-## Features
+## 🌟 Key Features
 
-- **Blood Bank Management**: Register and manage blood banks with inventory tracking
-- **Donor Management**: Register and find eligible blood donors
-- **Automated Email Processing**: AI-powered email parsing for blood requests
-- **Real-time Dashboard**: Live statistics and analytics
-- **Inventory Management**: Track blood stock levels and availability
-- **Location-based Matching**: Find nearest donors and blood banks using Google Maps API
+* **🤖 AI-Powered Email Parser:** Automated background worker fetches unread emails, parses requested blood groups/locations, and triggers auto-replies.
+* **🛡️ Smart Spam & Non-Request Filtering:** Real-time classification powered by Gemini filters out newsletters, marketing spam, and general conversation, avoiding unwanted automated replies.
+* **📍 Location-Based Distance Matching:** Integrates with the Google Maps API to calculate distances, ranking matching donors and blood banks dynamically.
+* **📊 Responsive Analytics Dashboard:** Interactive data visualizations (Pie, Bar, and Line charts via Recharts) displaying request volumes, timeline metrics, and unique requesters.
+* **📱 Mobile-First Adaptability:** Completely responsive frontend layout featuring a collapsible hamburger navigation Drawer, stacked stats grid, and swipeable tables.
 
-## Tech Stack
+---
+
+## ⚙️ Tech Stack
 
 ### Backend
-- **Python 3.11**
-- **FastAPI** - Modern web framework
-- **PostgreSQL** - Database
-- **SQLAlchemy** - ORM
-- **Google Gemini AI** - Email parsing
-- **Gmail API** - Email processing
-- **APScheduler** - Background tasks
+* **Python 3.11+**
+* **FastAPI** — High-performance web framework
+* **PostgreSQL** — Relational database
+* **SQLAlchemy** — ORM for query execution
+* **Google Gemini AI (Gemini 2.5 Flash)** — Email classification and semantic information extraction
+* **Gmail API & SMTP** — Automated fetching and sending
+* **APScheduler** — Background queue processing
 
 ### Frontend
-- **React 18** with TypeScript
-- **Material-UI (MUI)** - UI components
-- **Vite** - Build tool
-- **Recharts** - Data visualization
+* **React 18** (TypeScript)
+* **Material-UI (MUI 7)** — Modern components and theme design
+* **Vite** — Fast frontend build utility
+* **Zustand** — Client-side state store
+* **Recharts** — Chart rendering and data visualization
 
-## Setup Instructions
+---
+
+## 🚀 Setup Instructions
 
 ### Prerequisites
-- Python 3.11
-- Node.js 18+
-- PostgreSQL
-- Gmail account with App Password
+* Python 3.11+
+* Node.js 18+
+* PostgreSQL Database
+* Gemini API Key
 
-### Backend Setup
+---
 
-1. Navigate to backend directory:
-```bash
-cd backend
-```
+### 1. Backend Setup
 
-2. Create virtual environment:
-```bash
-python -m venv venv
-venv\Scripts\activate  # Windows
-# or
-source venv/bin/activate  # Linux/Mac
-```
+1. **Navigate to the Backend directory:**
+   ```bash
+   cd backend
+   ```
 
-3. Install dependencies:
-```bash
-pip install -r requirements.txt
-```
+2. **Create and Activate a Virtual Environment:**
+   ```bash
+   python -m venv venv
+   # On Windows:
+   venv\Scripts\activate
+   # On macOS/Linux:
+   source venv/bin/activate
+   ```
 
-4. Create `.env` file:
-```env
-DATABASE_URL="postgresql://username:password@localhost:5432/blooddot_db"
-GMAIL_EMAIL=your-email@gmail.com
-GMAIL_APP_PASSWORD=your-app-password
-GEMINI_API_KEY=your-gemini-api-key
-GOOGLE_MAPS_API_KEY=your-maps-api-key
-SECRET_KEY=your-secret-key
-```
+3. **Install Dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+   > [!NOTE]
+   > If you encounter compatibility warnings for `pkg_resources` under Python 3.14, install setuptools version `<70` (`pip install "setuptools<70"`).
 
-5. Start the server:
-```bash
-python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
-```
+4. **Create a `.env` file in the `backend/` directory:**
+   ```env
+   DATABASE_URL="postgresql+psycopg://username:password@localhost:5432/blooddot_db"
+   GMAIL_EMAIL="your-email@gmail.com"
+   GMAIL_APP_PASSWORD="your-gmail-app-password"
+   GEMINI_API_KEY="your-google-gemini-api-key"
+   GOOGLE_MAPS_API_KEY="your-google-maps-api-key"
+   SECRET_KEY="your-jwt-auth-secret-key"
+   EMAIL_POLL_INTERVAL_SECONDS=20
+   ```
 
-### Frontend Setup
+5. **Start the FastAPI Server:**
+   ```bash
+   python -m uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+   ```
+   The backend API will run on http://localhost:8000.
 
-1. Navigate to frontend directory:
-```bash
-cd frontend
-```
+---
 
-2. Install dependencies:
-```bash
-npm install
-```
+### 2. Frontend Setup
 
-3. Create `.env` file:
-```env
-VITE_API_URL=http://localhost:8000
-```
+1. **Navigate to the Frontend directory:**
+   ```bash
+   cd ../frontend
+   ```
 
-4. Start development server:
-```bash
-npm run dev
-```
+2. **Install Dependencies:**
+   ```bash
+   npm install
+   ```
 
-## API Endpoints
+3. **Create a `.env` file in the `frontend/` directory:**
+   ```env
+   VITE_API_URL=http://localhost:8000
+   ```
 
-- `POST /auth/signup` - Register blood bank
-- `POST /auth/login` - Login
-- `GET /inventory/` - Get inventory
-- `POST /inventory/` - Add inventory
-- `GET /donors/` - Get donors
-- `POST /donors/` - Add donor
-- `GET /dashboard/stats` - Dashboard statistics
-- `GET /email/process` - Process emails
+4. **Start the Development Server:**
+   ```bash
+   npm run dev
+   ```
+   The application will run locally on http://localhost:5173.
 
-## Environment Variables
+---
 
-### Backend (.env)
-- `DATABASE_URL` - PostgreSQL connection string
-- `GMAIL_EMAIL` - Gmail account for email processing
-- `GMAIL_APP_PASSWORD` - Gmail app password
-- `GEMINI_API_KEY` - Google Gemini AI API key
-- `GOOGLE_MAPS_API_KEY` - Google Maps API key
-- `SECRET_KEY` - JWT secret key
+## 🔐 Default Test Credentials
 
-### Frontend (.env)
-- `VITE_API_URL` - Backend API URL
+For quick testing and evaluation, you can use the pre-created test account:
+* **Email:** `test@bloodbank.com`
+* **Password:** `password123`
 
-## License
+---
 
-MIT License
+## 🛠️ API Routing Details
+
+* `POST /auth/signup` — Register a new Blood Bank
+* `POST /auth/login` — Sign in and receive a JWT token
+* `GET /donors` — Retrieve all active blood donors
+* `POST /donors` — Register a new donor with geolocation
+* `GET /inventory` — Query available blood stocks
+* `POST /inventory` — Add units to inventory
+* `GET /dashboard/stats` — Query backend dashboard telemetry
+* `GET /email/process` — Manually trigger email inbox processing
